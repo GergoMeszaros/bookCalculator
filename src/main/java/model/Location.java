@@ -1,16 +1,26 @@
 package model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.UUID;
 
 public class Location {
 
     private UUID id;
-    private String managerName;
     private String phone;
-    private String addressPrimary;
-    private String addressSecondary;
     private String country;
     private String town;
+
+    @SerializedName("manager_name")
+    private String managerName;
+
+    @SerializedName("address_primary")
+    private String addressPrimary;
+
+    @SerializedName("address_secondary")
+    private String addressSecondary;
+
+    @SerializedName("postal_code")
     private String postalCode;
 
     public Location(UUID id, String managerName, String phone, String addressPrimary, String addressSecondary, String country, String town, String postalCode) {
@@ -86,5 +96,19 @@ public class Location {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", managerName='" + managerName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", addressPrimary='" + addressPrimary + '\'' +
+                ", addressSecondary='" + addressSecondary + '\'' +
+                ", country='" + country + '\'' +
+                ", town='" + town + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
     }
 }
