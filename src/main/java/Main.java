@@ -2,10 +2,8 @@ import service.GsonCreator;
 import service.HttpDataCollector;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class Main {
 
@@ -18,7 +16,6 @@ public class Main {
         endPoints.put("https://my.api.mockaroo.com/marketplace?key=63304c70", "Marketplace");
 
         serviceCaller(endPoints);
-
     }
 
     public static void serviceCaller(Map<String, String> endpoints) throws IOException, ClassNotFoundException {
@@ -29,5 +26,4 @@ public class Main {
             );
         }
     }
-
 }
