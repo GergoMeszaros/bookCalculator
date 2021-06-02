@@ -1,7 +1,11 @@
 package model;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Listing {
@@ -17,7 +21,7 @@ public class Listing {
     private UUID inventoryItemLocationId;
 
     @SerializedName("listing_price")
-    private Integer listingPrice;
+    private Float listingPrice;
 
     @SerializedName("listing_status")
     private Integer listingStatus;
@@ -29,7 +33,9 @@ public class Listing {
     private String ownerEmailAddress;
 
 
-    public Listing(UUID id, String title, String description, String currency, Integer quantity, Integer marketplace, UUID inventoryItemLocationId, Integer listingPrice, Integer listingStatus, Date uploadTime, String ownerEmailAddress) {
+    public Listing(UUID id, String title, String description, String currency, Integer quantity,
+                   Integer marketplace, UUID inventoryItemLocationId, Float listingPrice,
+                   Integer listingStatus, Date uploadTime, String ownerEmailAddress) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -99,11 +105,11 @@ public class Listing {
         this.inventoryItemLocationId = inventoryItemLocationId;
     }
 
-    public Integer getListingPrice() {
+    public Float getListingPrice() {
         return listingPrice;
     }
 
-    public void setListingPrice(Integer listingPrice) {
+    public void setListingPrice(Float listingPrice) {
         this.listingPrice = listingPrice;
     }
 
@@ -119,8 +125,8 @@ public class Listing {
         return uploadTime;
     }
 
-    public void setUploadTime(Date uploadTime) {
-        this.uploadTime = uploadTime;
+    public void setUploadTime(String uploadTime) throws ParseException {
+        this.uploadTime = new SimpleDateFormat("MM/dd/yyyy").parse(uploadTime);
     }
 
     public String getOwnerEmailAddress() {
@@ -129,5 +135,23 @@ public class Listing {
 
     public void setOwnerEmailAddress(String ownerEmailAddress) {
         this.ownerEmailAddress = ownerEmailAddress;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Listing{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", currency='" + currency + '\'' +
+                ", quantity=" + quantity +
+                ", marketplace=" + marketplace +
+                ", inventoryItemLocationId=" + inventoryItemLocationId +
+                ", listingPrice=" + listingPrice +
+                ", listingStatus=" + listingStatus +
+                ", uploadTime=" + uploadTime +
+                ", ownerEmailAddress='" + ownerEmailAddress + '\'' +
+                '}';
     }
 }
