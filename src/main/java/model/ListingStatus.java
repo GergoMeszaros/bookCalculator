@@ -30,4 +30,12 @@ public class ListingStatus {
     public void setStatusName(String statusName) {
         this.statusName = statusName;
     }
+
+    @Override
+    public String toString() {
+        return "ListingStatus{" +
+                "id=" + id +
+                ", statusName='" + statusName + '\'' +
+                '}';
+    }
 }
