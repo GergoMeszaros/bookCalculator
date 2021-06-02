@@ -30,4 +30,12 @@ public class Marketplace {
     public void setMarketplaceName(String marketplaceName) {
         this.marketplaceName = marketplaceName;
     }
+
+    @Override
+    public String toString() {
+        return "Marketplace{" +
+                "id=" + id +
+                ", marketplaceName='" + marketplaceName + '\'' +
+                '}';
+    }
 }
