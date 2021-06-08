@@ -9,7 +9,7 @@ import java.net.URL;
 public class HttpDataCollector {
 
 
-    public static StringBuffer getDataFromApiEndPoint(String apiEndPoint) throws IOException {
+    public static String getDataFromApiEndPoint(String apiEndPoint) throws IOException {
 
         URL url = new URL(apiEndPoint);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -19,7 +19,7 @@ public class HttpDataCollector {
                 new InputStreamReader(connection.getInputStream()));
 
         String inputLine;
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
 
         while ((inputLine = input.readLine()) != null) {
             content.append(inputLine );
@@ -28,6 +28,6 @@ public class HttpDataCollector {
         input.close();
         connection.disconnect();
 
-        return content;
+        return String.valueOf(content);
     }
 }
