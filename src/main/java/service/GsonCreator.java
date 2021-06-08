@@ -2,22 +2,32 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import model.Listing;
+import model.Location;
+import model.Marketplace;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GsonCreator {
 
 
-    public static <Type> Type[] modelListCreator(StringBuffer input, String className) throws ClassNotFoundException {
+    public static <T> T[] modelListCreator(String input, Class<?> className) throws ClassNotFoundException {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder
                 .setDateFormat("MM/dd/yyyy")
                 .create();
 
-        return gson.fromJson(String.valueOf(input),
-                (java.lang.reflect.Type) classPicker(className).arrayType());
-    }
 
-    private static Class<?> classPicker(String className) throws ClassNotFoundException {
-        return Class.forName("model." + className);
+      /*  Type userListType = new TypeToken<ArrayList<?>>() {}.getType();
+        ArrayList<?> userArray = gson.fromJson(input, userListType);
+
+        System.out.println(userArray.get(0));
+        */
+        return gson.fromJson(input, (java.lang.reflect.Type) className.arrayType());
     }
 }
