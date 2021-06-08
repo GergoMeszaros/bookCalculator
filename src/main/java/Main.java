@@ -1,6 +1,7 @@
 import model.*;
 import service.GsonCreator;
 import service.HttpDataCollector;
+import service.config.ReadConfigFile;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -17,7 +18,10 @@ public class Main {
         //endPoints.put("https://my.api.mockaroo.com/location?key=63304c70", Location.class);
         //endPoints.put("https://my.api.mockaroo.com/marketplace?key=63304c70", Marketplace.class);
 
-        serviceCaller(endPoints);
+        //serviceCaller(endPoints);
+
+        ReadConfigFile configFile = new ReadConfigFile();
+
 
     }
 
