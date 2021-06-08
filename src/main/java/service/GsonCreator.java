@@ -3,9 +3,7 @@ package service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import model.Listing;
-import model.Location;
-import model.Marketplace;
+import model.*;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -28,6 +26,6 @@ public class GsonCreator {
 
         System.out.println(userArray.get(0));
         */
-        return gson.fromJson(input, (java.lang.reflect.Type) className.arrayType());
+        return gson.fromJson(input, (Type) className.arrayType());
     }
 }
