@@ -14,6 +14,7 @@ public class DatabaseTableCreator {
     }
 
     private void createTable() throws SQLException, IOException {
+
         Connection connection = databaseConnector.createConnection();
         Statement statement = connection.createStatement();
 
@@ -47,6 +48,20 @@ public class DatabaseTableCreator {
 
         statement.execute(createListingStatus);
 
+        String createLocation =
+                "DROP TABLE IF EXISTS location;" +
+                        "CREATE TABLE location (" +
+                        "id binary(16) NOT NULL," +
+                        "manager_name varchar(255) NOT NULL," +
+                        "phone varchar(15) NOT NULL," +
+                        "address_primary varchar(255)," +
+                        "address_secondary varchar(255)," +
+                        "country varchar(35)," +
+                        "town varchar(35)," +
+                        "postal_code varchar(35)," +
+                        "PRIMARY KEY (id))";
+
+        statement.execute(createLocation);
     }
 
 }
