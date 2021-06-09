@@ -9,6 +9,9 @@ public class ReadConfigFile {
     InputStream inputStream;
     String dbUsername;
     String dbPassword;
+    String dbName;
+    String dbUrl;
+    String driverName;
 
     public String getDbUsername() {
         return dbUsername;
@@ -16,6 +19,18 @@ public class ReadConfigFile {
 
     public String getDbPassword() {
         return dbPassword;
+    }
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public String getDbUrl() {
+        return dbUrl;
+    }
+
+    public String getDriverName() {
+        return driverName;
     }
 
     public ReadConfigFile() throws IOException {
@@ -37,6 +52,9 @@ public class ReadConfigFile {
             }
             dbUsername = properties.getProperty("dbUsername");
             dbPassword = properties.getProperty("dbPassword");
+            dbName = properties.getProperty("dbName");
+            dbUrl = properties.getProperty("dbUrl");
+            driverName = properties.getProperty("driverName");
 
         } catch (IOException exception) {
             System.out.println("Exception " + exception);
