@@ -49,7 +49,7 @@ public class DatabaseTableCreator {
 
         String createLocation =
                 "CREATE TABLE location (" +
-                        "id binary(16) NOT NULL," +
+                        "id varchar(36) NOT NULL," +
                         "manager_name varchar(255) NOT NULL," +
                         "phone varchar(15) NOT NULL," +
                         "address_primary varchar(255)," +
@@ -71,10 +71,10 @@ public class DatabaseTableCreator {
 
         String createListing =
                 "CREATE TABLE listing (" +
-                        "   id binary(16) NOT NULL," +
+                        "   id varchar(36) NOT NULL," +
                         "   title varchar(35) NOT NULL," +
                         "   description varchar(255) NOT NULL," +
-                        "   inventory_item_location_id binary(16) NOT NULL," +
+                        "   inventory_item_location_id varchar(36) NOT NULL," +
                         "   listing_price decimal(65, 2) NOT NULL," +
                         "   currency varchar(3) not null," +
                         "   quantity int NOT NULL," +

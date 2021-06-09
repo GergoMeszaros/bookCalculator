@@ -24,6 +24,7 @@ public class Main {
         //endPoints.put("https://my.api.mockaroo.com/marketplace?key=63304c70", Marketplace.class);
 
         //serviceCaller(endPoints);
+
     }
 
     public static void serviceCaller(Map<String, Class<?>> endpoints) throws IOException, ClassNotFoundException {
