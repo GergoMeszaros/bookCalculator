@@ -62,6 +62,15 @@ public class DatabaseTableCreator {
                         "PRIMARY KEY (id))";
 
         statement.execute(createLocation);
+
+        String createMarketplace =
+                "DROP TABLE IF EXISTS marketplace;" +
+                        "CREATE TABLE marketplace (" +
+                        "id int NOT NULL," +
+                        "marketplace_name varchar(255)," +
+                        "PRIMARY KEY (id))";
+
+        statement.execute(createMarketplace);
     }
 
 }
