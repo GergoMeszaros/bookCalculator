@@ -21,9 +21,10 @@ public class Main {
        // endPoints.put("https://my.api.mockaroo.com/listing?key=63304c70", Listing.class);
        // endPoints.put("https://my.api.mockaroo.com/listingStatus?key=63304c70", ListingStatus.class);
         //endPoints.put("https://my.api.mockaroo.com/location?key=63304c70", Location.class);
-        //endPoints.put("https://my.api.mockaroo.com/marketplace?key=63304c70", Marketplace.class);
+       // endPoints.put("https://my.api.mockaroo.com/marketplace?key=63304c70", Marketplace.class);
 
         //serviceCaller(endPoints);
+
 
     }
 

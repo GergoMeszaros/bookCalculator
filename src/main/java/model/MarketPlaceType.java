@@ -21,15 +21,14 @@ public enum MarketPlaceType {
         return id;
     }
 
-    public static String getMarketPlaceTypeNameFromId(int id) {
+    public static String getMarketPlaceTypeNameFromId(int marketplaceId) {
         for (MarketPlaceType type : MarketPlaceType.values()) {
-            if (type.getId() == id) {
+            if (type.getId() == marketplaceId) {
                 return type.name;
             }
         }
         return null;
     }
-
 }
 
 
