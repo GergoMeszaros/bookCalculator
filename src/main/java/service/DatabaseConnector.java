@@ -23,7 +23,6 @@ public class DatabaseConnector {
         return databaseConnector;
     }
 
-
     public Connection createConnection() throws SQLException, IOException {
 
         MysqlDataSource dataSource = new MysqlDataSource();

@@ -8,10 +8,18 @@ import java.sql.Statement;
 public class DatabaseTableCreator {
 
     private final Connection connection;
+    private static DatabaseTableCreator databaseTableCreator;
 
-    public DatabaseTableCreator() throws IOException, SQLException {
+    private DatabaseTableCreator() throws IOException, SQLException {
         DatabaseConnector databaseConnector = DatabaseConnector.getDbConnectorInstance();
         this.connection = databaseConnector.createConnection();
+    }
+
+    public static DatabaseTableCreator getInstance() throws SQLException, IOException {
+        if (databaseTableCreator == null) {
+            databaseTableCreator = new DatabaseTableCreator();
+        }
+        return databaseTableCreator;
     }
 
     private void tableDropper() throws SQLException {

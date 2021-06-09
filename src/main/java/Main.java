@@ -1,5 +1,6 @@
 import model.*;
 import service.DatabaseConnector;
+import service.DatabaseTableCreator;
 import service.GsonCreator;
 import service.HttpDataCollector;
 import service.config.ReadConfigFile;
