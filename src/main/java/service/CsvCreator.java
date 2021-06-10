@@ -1,5 +1,8 @@
 package service;
 
+import model.Listing;
+import model.MarketPlaceType;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -30,12 +33,19 @@ public class CsvCreator {
         }
     }
 
-    public void convertDataArrayToCsvAndOutputCreated() throws FileNotFoundException {
+    public void convertDataArrayToCsvAndOutputCreated(List<Listing> dataToCsv) throws FileNotFoundException {
 
         deleteCsvIfExists();
-
-        dataLines.add(new String[]{"ListingId", "MarketplaceName", "InvalidField"});
         File outputCsvFile = new File("/Users/gergo/codecool/advanced/bookCalculator/src/main/java/file/wrongFields.csv");
+
+        dataLines.add(new String[]{"ListingId", "MarketplaceName", "InvalidFields"});
+
+        for (Listing element : dataToCsv) {
+            dataLines.add(new String[]{String.valueOf(element.getId()),
+                    MarketPlaceType.getMarketPlaceTypeNameFromId(element.getMarketplace()),
+                    "----"
+            });
+        }
 
         try (PrintWriter printWriter = new PrintWriter(outputCsvFile)) {
             dataLines.stream()
