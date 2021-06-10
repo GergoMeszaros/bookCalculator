@@ -1,4 +1,4 @@
-package service;
+package service.database;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import service.config.ReadConfigFile;
