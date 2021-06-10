@@ -8,8 +8,21 @@ import java.net.URL;
 
 public class HttpDataCollector {
 
+    private static HttpDataCollector httpDataCollector;
 
-    public static String getDataFromApiEndPoint(String apiEndPoint) throws IOException {
+    private HttpDataCollector(){
+
+    }
+
+    public static HttpDataCollector getHttpDataCollectorInstance(){
+        if(httpDataCollector == null){
+            httpDataCollector = new HttpDataCollector();
+        }
+        return httpDataCollector;
+    }
+
+
+    public String getDataFromApiEndPoint(String apiEndPoint) throws IOException {
 
         URL url = new URL(apiEndPoint);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
