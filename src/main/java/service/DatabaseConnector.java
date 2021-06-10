@@ -1,6 +1,5 @@
 package service;
 
-
 import com.mysql.cj.jdbc.MysqlDataSource;
 import service.config.ReadConfigFile;
 
