@@ -10,6 +10,7 @@ import service.validator.ApiDataValidator;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public class GsonCreator {
@@ -25,10 +26,9 @@ public class GsonCreator {
         apiResponse = dataCollector.getDataFromApiEndPoint(apiEndPoint);
     }
 
-    public static <T> T[] modelListCreator(String apiEndPoint, Class<?> className) throws ClassNotFoundException, IOException {
+    public static <T> T[] modelListCreator(String apiEndPoint, Class<?> className) throws ClassNotFoundException, IOException, SQLException {
 
         collectDataFromApi(apiEndPoint);
-
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder
@@ -46,10 +46,14 @@ public class GsonCreator {
             apiDataValidator = ApiDataValidator.getApiDataValidatorInstance();
             apiDataValidator.validateApiData((Listing[]) listing);
         }
+
+        callDatabaseInserter(className, listing);
         return listing;
     }
 
-    private void callDatabaseInserter(Class<?> classname){
-        databaseInserter = databaseInserter.getDatabaseInserterInstance();
+    private static <T> void callDatabaseInserter(Class<?> classname, T[] arrayOfModels) throws SQLException, IOException {
+        databaseInserter = DatabaseInserter.getDatabaseInserterInstance();
+        databaseInserter.forwardDataToAppropriateInserter(arrayOfModels, classname);
+
     }
 }
