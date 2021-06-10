@@ -17,7 +17,7 @@ public class Listing {
     private Integer quantity;
     private Integer marketplace;
 
-    @SerializedName("inventory_item_location_id")
+    @SerializedName("location_id")
     private UUID inventoryItemLocationId;
 
     @SerializedName("listing_price")
