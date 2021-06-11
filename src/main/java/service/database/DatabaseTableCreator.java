@@ -74,7 +74,7 @@ public class DatabaseTableCreator {
                         "   id varchar(36) NOT NULL," +
                         "   title varchar(35) NOT NULL," +
                         "   description varchar(255) NOT NULL," +
-                        "   inventory_item_location_id varchar(36) NOT NULL," +
+                        "   location_id varchar(36) NOT NULL," +
                         "   listing_price decimal(65, 2) NOT NULL," +
                         "   currency varchar(3) not null," +
                         "   quantity int NOT NULL," +
@@ -84,7 +84,7 @@ public class DatabaseTableCreator {
                         "   owner_email_address varchar(50) NOT NULL," +
                         "   PRIMARY KEY (id), " +
                         "   CONSTRAINT location_fk " +
-                        "       FOREIGN KEY (inventory_item_location_id) REFERENCES location(id), " +
+                        "       FOREIGN KEY (location_id) REFERENCES location(id), " +
                         "   CONSTRAINT marketplace_fk" +
                         "       FOREIGN KEY (marketplace) REFERENCES marketplace(id)," +
                         "   CONSTRAINT status_fk" +

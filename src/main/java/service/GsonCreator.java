@@ -11,7 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class GsonCreator {
 
@@ -26,32 +29,26 @@ public class GsonCreator {
         apiResponse = dataCollector.getDataFromApiEndPoint(apiEndPoint);
     }
 
-    public static <T> T[] modelListCreator(String apiEndPoint, Class<?> className) throws ClassNotFoundException, IOException, SQLException {
+    public static <T> void  modelListCreator(String apiEndPoint, Class<?> className) throws ClassNotFoundException, IOException, SQLException, ParseException {
 
         collectDataFromApi(apiEndPoint);
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder
-                .setDateFormat("MM/dd/yyyy")
                 .create();
 
-      /*  Type userListType = new TypeToken<ArrayList<?>>() {}.getType();
-        ArrayList<?> userArray = gson.fromJson(input, userListType);
-
-        System.out.println(userArray.get(0));
-        */
         T[] listing = gson.fromJson(apiResponse, (Type) className.arrayType());
 
         if (listing[0] instanceof Listing) {
             apiDataValidator = ApiDataValidator.getApiDataValidatorInstance();
             apiDataValidator.validateApiData((Listing[]) listing);
+            callDatabaseInserter(className, listing);
         }
 
         callDatabaseInserter(className, listing);
-        return listing;
     }
 
-    private static <T> void callDatabaseInserter(Class<?> classname, T[] arrayOfModels) throws SQLException, IOException {
+    private static <T> void callDatabaseInserter(Class<?> classname, T[] arrayOfModels) throws SQLException, IOException, ParseException {
         databaseInserter = DatabaseInserter.getDatabaseInserterInstance();
         databaseInserter.forwardDataToAppropriateInserter(arrayOfModels, classname);
 

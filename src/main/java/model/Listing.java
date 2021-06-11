@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
@@ -27,7 +29,8 @@ public class Listing {
     private Integer listingStatus;
 
     @SerializedName("upload_time")
-    private Date uploadTime;
+    private String uploadTime;
+
 
     @SerializedName("owner_email_address")
     private String ownerEmailAddress;
@@ -35,7 +38,7 @@ public class Listing {
 
     public Listing(UUID id, String title, String description, String currency, Integer quantity,
                    Integer marketplace, UUID inventoryItemLocationId, Float listingPrice,
-                   Integer listingStatus, Date uploadTime, String ownerEmailAddress) {
+                   Integer listingStatus, String uploadTime, String ownerEmailAddress) throws ParseException {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -46,8 +49,10 @@ public class Listing {
         this.listingPrice = listingPrice;
         this.listingStatus = listingStatus;
         this.uploadTime = uploadTime;
+
         this.ownerEmailAddress = ownerEmailAddress;
     }
+
 
     public UUID getId() {
         return id;
@@ -121,13 +126,10 @@ public class Listing {
         this.listingStatus = listingStatus;
     }
 
-    public Date getUploadTime() {
+    public String  getUploadTime() {
         return uploadTime;
     }
 
-    public void setUploadTime(String uploadTime) throws ParseException {
-        this.uploadTime = new SimpleDateFormat("MM/dd/yyyy").parse(uploadTime);
-    }
 
     public String getOwnerEmailAddress() {
         return ownerEmailAddress;

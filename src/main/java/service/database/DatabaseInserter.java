@@ -1,57 +1,57 @@
 package service.database;
 
+import model.Listing;
 import model.ListingStatus;
 import model.Location;
 import model.Marketplace;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class DatabaseInserter {
 
     private DatabaseConnector databaseConnector;
     private static DatabaseInserter databaseInserter;
-    private static DatabaseTableCreator databaseTableCreator;
 
     private DatabaseInserter() {
     }
 
-    public static DatabaseInserter getDatabaseInserterInstance() {
+    public static DatabaseInserter getDatabaseInserterInstance() throws SQLException, IOException {
         if (databaseInserter == null) {
             databaseInserter = new DatabaseInserter();
+            createTables();
         }
         return databaseInserter;
     }
 
-    private void createTables() throws SQLException, IOException {
-        databaseTableCreator = DatabaseTableCreator.getInstance();
+    private static void createTables() throws SQLException, IOException {
+        DatabaseTableCreator databaseTableCreator = DatabaseTableCreator.getInstance();
         databaseTableCreator.createTable();
     }
 
-    public <T> void forwardDataToAppropriateInserter(T[] arrayOfModels, Class<?> classname) throws SQLException, IOException {
+    public <T> void forwardDataToAppropriateInserter(T[] arrayOfModels, Class<?> classname) throws SQLException, IOException, ParseException {
         databaseConnector = DatabaseConnector.getDbConnectorInstance();
-
-        createTables();
-
 
         if (classname.equals(Location.class)) {
             insertLocation((Location[]) arrayOfModels);
         } else if (classname.equals(Marketplace.class)) {
-            insertMarketPlace(arrayOfModels);
+            insertMarketPlace((Marketplace[]) arrayOfModels);
         } else if (classname.equals(ListingStatus.class)) {
-            insertListingStatus(arrayOfModels);
+            insertListingStatus((ListingStatus[]) arrayOfModels);
         } else {
-            insertListing(arrayOfModels);
+            insertListing((Listing[]) arrayOfModels);
         }
     }
 
     private void insertLocation(Location[] locations) throws SQLException, IOException {
 
         Connection connection = databaseConnector.createConnection();
+        connection.setAutoCommit(false);
 
         String query = "INSERT INTO location VALUES (?,?,?,?,?,?,?,?)";
 
@@ -70,20 +70,76 @@ public class DatabaseInserter {
             preparedStatement.addBatch();
         }
         preparedStatement.executeBatch();
-
+        connection.commit();
+        connection.close();
     }
 
-    private <T> void insertMarketPlace(T[] marketplaces) {
+    private void insertMarketPlace(Marketplace[] marketplaces) throws SQLException, IOException {
 
+        Connection connection = databaseConnector.createConnection();
+        connection.setAutoCommit(false);
+
+        String query = "INSERT INTO marketplace VALUES (?,?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        for (Marketplace actualElement : marketplaces) {
+            preparedStatement.setInt(1, actualElement.getId());
+            preparedStatement.setString(2, actualElement.getMarketplaceName());
+
+            preparedStatement.addBatch();
+        }
+
+        preparedStatement.executeBatch();
+        connection.commit();
+        connection.close();
     }
 
-    private <T> void insertListingStatus(T[] listing_statuses) {
+    private void insertListingStatus(ListingStatus[] listing_statuses) throws SQLException, IOException {
+        Connection connection = databaseConnector.createConnection();
+        connection.setAutoCommit(false);
 
+        String query = "INSERT INTO listing_status VALUES (?,?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        for (ListingStatus actualElement : listing_statuses) {
+            preparedStatement.setInt(1, actualElement.getId());
+            preparedStatement.setString(2, actualElement.getStatusName());
+
+            preparedStatement.addBatch();
+        }
+        preparedStatement.executeBatch();
+        connection.commit();
+        connection.close();
     }
 
-    private <T> void insertListing(T[] listings) {
+    private void insertListing(Listing[] listings) throws SQLException, IOException, ParseException {
+        Connection connection = databaseConnector.createConnection();
+        connection.setAutoCommit(false);
 
+        String query = "INSERT INTO listing VALUES (?,?,?,?,?,?,?,?,?,STR_TO_DATE(?, '%m/%d/%Y'),?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        for (Listing actualElement : listings) {
+
+            preparedStatement.setString(1, String.valueOf(actualElement.getId()));
+            preparedStatement.setString(2, actualElement.getTitle());
+            preparedStatement.setString(3, actualElement.getDescription());
+            preparedStatement.setString(4, String.valueOf(actualElement.getInventoryItemLocationId()));
+            preparedStatement.setFloat(5, actualElement.getListingPrice());
+            preparedStatement.setString(6, actualElement.getCurrency());
+            preparedStatement.setInt(7, actualElement.getQuantity());
+            preparedStatement.setInt(8, actualElement.getListingStatus());
+            preparedStatement.setInt(9, actualElement.getMarketplace());
+            preparedStatement.setString(10,actualElement.getUploadTime());
+            preparedStatement.setString(11, actualElement.getOwnerEmailAddress());
+
+            preparedStatement.addBatch();
+        }
+        preparedStatement.executeBatch();
+        connection.commit();
+        connection.close();
     }
-
-
 }
