@@ -10,4 +10,13 @@ public class MonthlyReport {
     private Long totalListingCountOfMonth;
 
 
+    public MonthlyReport(MarketPlaceType marketPlaceType, String bestListerEmailAddress, Long totalListingPriceOfMonth, Long totalListingCountOfMonth) {
+        this.marketPlaceType = marketPlaceType;
+        this.bestListerEmailAddress = bestListerEmailAddress;
+        this.totalListingPriceOfMonth = totalListingPriceOfMonth;
+        this.totalListingCountOfMonth = totalListingCountOfMonth;
+    }
+
+
+
 }
