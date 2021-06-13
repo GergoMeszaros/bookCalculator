@@ -31,7 +31,6 @@ public class Listing {
     @SerializedName("upload_time")
     private String uploadTime;
 
-
     @SerializedName("owner_email_address")
     private String ownerEmailAddress;
 

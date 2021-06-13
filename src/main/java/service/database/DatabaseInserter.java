@@ -6,10 +6,7 @@ import model.Location;
 import model.Marketplace;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -118,7 +115,9 @@ public class DatabaseInserter {
         Connection connection = databaseConnector.createConnection();
         connection.setAutoCommit(false);
 
-        String query = "INSERT INTO listing VALUES (?,?,?,?,?,?,?,?,?,STR_TO_DATE(?, '%m/%d/%Y'),?)";
+        String query = "" +
+                "INSERT INTO listing VALUES (?,?,?,?,?,?,?,?,?,STR_TO_DATE(?, '%m/%d/%Y'),?);" +
+                "SET FOREIGN_KEY_CHECKS = 0";
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
@@ -133,7 +132,7 @@ public class DatabaseInserter {
             preparedStatement.setInt(7, actualElement.getQuantity());
             preparedStatement.setInt(8, actualElement.getListingStatus());
             preparedStatement.setInt(9, actualElement.getMarketplace());
-            preparedStatement.setString(10,actualElement.getUploadTime());
+            preparedStatement.setString(10, actualElement.getUploadTime());
             preparedStatement.setString(11, actualElement.getOwnerEmailAddress());
 
             preparedStatement.addBatch();
