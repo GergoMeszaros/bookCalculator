@@ -1,4 +1,4 @@
-package service.report;
+package model;
 
 import model.MarketPlaceType;
 
