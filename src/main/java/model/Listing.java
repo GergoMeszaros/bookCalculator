@@ -2,42 +2,41 @@ package model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Listing {
 
-    private UUID id;
-    private String title;
-    private String description;
-    private String currency;
-    private Integer quantity;
-    private Integer marketplace;
+    private final UUID id;
+    private final String title;
+    private final String description;
+    private final String currency;
+    private final Integer quantity;
+    private final Integer marketplace;
 
     @SerializedName("location_id")
-    private UUID inventoryItemLocationId;
+    private final UUID inventoryItemLocationId;
 
     @SerializedName("listing_price")
-    private Float listingPrice;
+    private final Float listingPrice;
 
     @SerializedName("listing_status")
-    private Integer listingStatus;
+    private final Integer listingStatus;
 
     @SerializedName("upload_time")
-    private String uploadTime;
+    private final String uploadTime;
 
     @SerializedName("owner_email_address")
-    private String ownerEmailAddress;
+    private final String ownerEmailAddress;
+
+    private List<String> wrongFields = null;
 
 
     public Listing(UUID id, String title, String description, String currency, Integer quantity,
                    Integer marketplace, UUID inventoryItemLocationId, Float listingPrice,
-                   Integer listingStatus, String uploadTime, String ownerEmailAddress) throws ParseException {
+                   Integer listingStatus, String uploadTime, String ownerEmailAddress) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -48,7 +47,6 @@ public class Listing {
         this.listingPrice = listingPrice;
         this.listingStatus = listingStatus;
         this.uploadTime = uploadTime;
-
         this.ownerEmailAddress = ownerEmailAddress;
     }
 
@@ -57,87 +55,97 @@ public class Listing {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getCurrency() {
         return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     public Integer getMarketplace() {
         return marketplace;
-    }
-
-    public void setMarketplace(Integer marketplace) {
-        this.marketplace = marketplace;
     }
 
     public UUID getInventoryItemLocationId() {
         return inventoryItemLocationId;
     }
 
-    public void setInventoryItemLocationId(UUID inventoryItemLocationId) {
-        this.inventoryItemLocationId = inventoryItemLocationId;
-    }
-
     public Float getListingPrice() {
         return listingPrice;
-    }
-
-    public void setListingPrice(Float listingPrice) {
-        this.listingPrice = listingPrice;
     }
 
     public Integer getListingStatus() {
         return listingStatus;
     }
 
-    public void setListingStatus(Integer listingStatus) {
-        this.listingStatus = listingStatus;
-    }
-
-    public String  getUploadTime() {
+    public String getUploadTime() {
         return uploadTime;
     }
-
 
     public String getOwnerEmailAddress() {
         return ownerEmailAddress;
     }
 
-    public void setOwnerEmailAddress(String ownerEmailAddress) {
-        this.ownerEmailAddress = ownerEmailAddress;
+    public List<String> getWrongFields() {
+        return wrongFields;
     }
 
+    public boolean selfChecker() {
+
+        List<String> wrongFields = new ArrayList<>();
+
+        if (id == null)
+            wrongFields.add("id");
+        if (title == null) {
+            wrongFields.add("title");
+        }
+        if (description == null) {
+            wrongFields.add("description");
+        }
+        if (!ListingStatusType.getIdList().contains(listingStatus)) {
+            wrongFields.add("listingStatus");
+        }
+        if (inventoryItemLocationId == null) {
+            wrongFields.add("inventoryLocationId");
+        }
+        if ((listingPrice <= 0 || !(BigDecimal.valueOf(listingPrice).scale() > 2))) {
+            wrongFields.add("listingPrice");
+        }
+        if ((currency == null || currency.length() != 3)) {
+            wrongFields.add("currency");
+        }
+        if ((quantity == null || quantity <= 0)) {
+            wrongFields.add("quantity");
+        }
+        if (listingStatus == null) {
+            wrongFields.add("listingStatus");
+        }
+        if (marketplace == null) {
+            wrongFields.add("marketplace");
+        }
+        if ((ownerEmailAddress == null || !validateEmailAddress(ownerEmailAddress))) {
+            wrongFields.add("email");
+        }
+
+        this.wrongFields = wrongFields;
+
+        return wrongFields.size() > 0;
+    }
+
+    private boolean validateEmailAddress(String emailAddress) {
+        Pattern pattern = Pattern.compile("^.+@.+\\..+$");
+        Matcher matcher = pattern.matcher(emailAddress);
+        return matcher.matches();
+    }
 
     @Override
     public String toString() {
@@ -153,6 +161,7 @@ public class Listing {
                 ", listingStatus=" + listingStatus +
                 ", uploadTime=" + uploadTime +
                 ", ownerEmailAddress='" + ownerEmailAddress + '\'' +
+                ", wrongFields='" + wrongFields + '\n' +
                 '}';
     }
 }
