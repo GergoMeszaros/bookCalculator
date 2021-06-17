@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class GsonCreator {
 
@@ -25,27 +29,37 @@ public class GsonCreator {
         this.databaseInserter = databaseInserter;
     }
 
-    private void collectDataFromApi(String apiEndPoint) throws IOException {
+    private void collectDataFromApi(String apiEndPoint) {
         apiResponse = dataCollector.getDataFromApiEndPoint(apiEndPoint);
     }
 
-    public <T> void modelListCreator(String apiEndPoint, Class<?> className) throws IOException, SQLException, ParseException {
+    public <T> void modelListCreator(String apiEndPoint, Class<?> className) throws IOException, SQLException {
 
         collectDataFromApi(apiEndPoint);
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
 
-        T[] listing = gson.fromJson(apiResponse, (Type) className.arrayType());
+        T[] databaseModel = gson.fromJson(apiResponse, (Type) className.arrayType());
+        Listing[] listings = new Listing[0];
 
-        if (listing[0] instanceof Listing) {
-            apiDataValidator.validateApiData((Listing[]) listing);
-            callDatabaseInserter(className, listing);
+        if (databaseModel[0] instanceof Listing) {
+            listings = apiDataValidator.validateApiData((Listing[]) databaseModel);
         }
-        callDatabaseInserter(className, listing);
+
+        if (listings.length > 0) {
+            callDatabaseInserter(className, listings);
+        } else {
+            callDatabaseInserter(className, databaseModel);
+        }
+
     }
 
-    private <T> void callDatabaseInserter(Class<?> classname, T[] arrayOfModels) throws SQLException, IOException, ParseException {
+    private <T> void callDatabaseInserter(Class<?> classname, T[] arrayOfModels) throws SQLException {
         databaseInserter.forwardDataToAppropriateInserter(arrayOfModels, classname);
     }
+
 }
+
+
+
