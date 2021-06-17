@@ -7,32 +7,39 @@ import model.Marketplace;
 
 import java.io.IOException;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class DatabaseInserter {
 
-    private DatabaseConnector databaseConnector;
-    private static DatabaseInserter databaseInserter;
+    private final DatabaseConnector databaseConnector;
+    private final DatabaseTableCreator databaseTableCreator;
+    private Connection connection;
 
-    private DatabaseInserter() {
-    }
 
-    public static DatabaseInserter getDatabaseInserterInstance() throws SQLException, IOException {
-        if (databaseInserter == null) {
-            databaseInserter = new DatabaseInserter();
+    public DatabaseInserter(DatabaseConnector databaseConnector, DatabaseTableCreator databaseTableCreator) {
+        this.databaseConnector = databaseConnector;
+        this.databaseTableCreator = databaseTableCreator;
+        createConnection();
+
+        try {
             createTables();
+        } catch (SQLException | IOException exception) {
+            exception.printStackTrace();
         }
-        return databaseInserter;
     }
 
-    private static void createTables() throws SQLException, IOException {
-        DatabaseTableCreator databaseTableCreator = DatabaseTableCreator.getInstance();
+    private void createConnection() {
+        try {
+            this.connection = databaseConnector.createConnection();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void createTables() throws SQLException, IOException {
         databaseTableCreator.createTable();
     }
 
-    public <T> void forwardDataToAppropriateInserter(T[] arrayOfModels, Class<?> classname) throws SQLException, IOException, ParseException {
-        databaseConnector = DatabaseConnector.getDbConnectorInstance();
+    public <T> void forwardDataToAppropriateInserter(T[] arrayOfModels, Class<?> classname) throws SQLException {
 
         if (classname.equals(Location.class)) {
             insertLocation((Location[]) arrayOfModels);
@@ -45,9 +52,9 @@ public class DatabaseInserter {
         }
     }
 
-    private void insertLocation(Location[] locations) throws SQLException, IOException {
+    private void insertLocation(Location[] locations) throws SQLException {
 
-        Connection connection = databaseConnector.createConnection();
+        createConnection();
         connection.setAutoCommit(false);
 
         String query = "INSERT INTO location VALUES (?,?,?,?,?,?,?,?)";
@@ -71,9 +78,9 @@ public class DatabaseInserter {
         connection.close();
     }
 
-    private void insertMarketPlace(Marketplace[] marketplaces) throws SQLException, IOException {
+    private void insertMarketPlace(Marketplace[] marketplaces) throws SQLException {
 
-        Connection connection = databaseConnector.createConnection();
+        createConnection();
         connection.setAutoCommit(false);
 
         String query = "INSERT INTO marketplace VALUES (?,?)";
@@ -92,8 +99,9 @@ public class DatabaseInserter {
         connection.close();
     }
 
-    private void insertListingStatus(ListingStatus[] listing_statuses) throws SQLException, IOException {
-        Connection connection = databaseConnector.createConnection();
+    private void insertListingStatus(ListingStatus[] listing_statuses) throws SQLException {
+
+        createConnection();
         connection.setAutoCommit(false);
 
         String query = "INSERT INTO listing_status VALUES (?,?)";
@@ -111,12 +119,14 @@ public class DatabaseInserter {
         connection.close();
     }
 
-    private void insertListing(Listing[] listings) throws SQLException, IOException, ParseException {
-        Connection connection = databaseConnector.createConnection();
+    private void insertListing(Listing[] listings) throws SQLException {
+
+        createConnection();
         connection.setAutoCommit(false);
 
         String query = "" +
-                "INSERT INTO listing VALUES (?,?,?,?,?,?,?,?,?,STR_TO_DATE(?, '%m/%d/%Y'),?);" +
+                "INSERT INTO listing VALUES (?,?,?,?,?,?,?,?,?,STR_TO_DATE(?, '%m/%d/%Y'),?) " +
+                "ON DUPLICATE KEY UPDATE id = id;" +
                 "SET FOREIGN_KEY_CHECKS = 0";
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
