@@ -34,7 +34,6 @@ public class MonthlyReport {
         return MarketPlaceType.getMarketPlaceTypeNameFromId(marketPlaceId);
     }
 
-
     @Override
     public String toString() {
         return "MonthlyReport{" +
