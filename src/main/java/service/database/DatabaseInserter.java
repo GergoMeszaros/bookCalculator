@@ -145,8 +145,7 @@ public class DatabaseInserter implements AutoCloseable {
 
         String query = "" +
                 "INSERT INTO listing VALUES (?,?,?,?,?,?,?,?,?,STR_TO_DATE(?, '%m/%d/%Y'),?) " +
-                "ON DUPLICATE KEY UPDATE id = id;" +
-                "SET FOREIGN_KEY_CHECKS = 0";
+                "ON DUPLICATE KEY UPDATE id = id";
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
