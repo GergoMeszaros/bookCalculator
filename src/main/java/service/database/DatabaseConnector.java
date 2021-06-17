@@ -9,20 +9,13 @@ import java.sql.SQLException;
 
 public class DatabaseConnector {
 
-    private static DatabaseConnector databaseConnector;
-    private final ReadConfigFile readConfigFile = new ReadConfigFile();
+    private final ReadConfigFile readConfigFile;
 
-    private DatabaseConnector() throws IOException {
+    public DatabaseConnector(ReadConfigFile readConfigFile) {
+        this.readConfigFile = readConfigFile;
     }
 
-    public static DatabaseConnector getDbConnectorInstance() throws IOException {
-        if (databaseConnector == null) {
-            databaseConnector = new DatabaseConnector();
-        }
-        return databaseConnector;
-    }
-
-    public Connection createConnection() throws SQLException, IOException {
+    public Connection createConnection() throws SQLException {
 
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL(readConfigFile.getDbUrl());
