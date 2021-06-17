@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DatabaseTableCreator {
+public class DatabaseTableCreator implements AutoCloseable{
 
     private final DatabaseConnector databaseConnector;
     private Connection connection;
@@ -92,8 +92,16 @@ public class DatabaseTableCreator {
                         "       FOREIGN KEY (listing_status) REFERENCES listing_status(id))";
 
         statement.execute(createListing);
-        connection.close();
+        try {
+            close();
+        } catch (Exception exception) {
+            System.out.println("Cannot close db connection");
+            exception.printStackTrace();
+        }
     }
 
-    //implements autoclosable
+    @Override
+    public void close() throws Exception {
+        connection.close();
+    }
 }
