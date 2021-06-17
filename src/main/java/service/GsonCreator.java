@@ -33,6 +33,11 @@ public class GsonCreator {
         apiResponse = dataCollector.getDataFromApiEndPoint(apiEndPoint);
     }
 
+
+    /** This method checks if the input class type is instance of Listing, if so the method passing the list
+     * to the dataValidator class which collects all the wrong fields as well as removes the Listings which have
+     * different kind of ListingStatus from the database. I supposed the further calculations might be wrong if
+     * they included the inappropriate data*/
     public <T> void modelListCreator(String apiEndPoint, Class<?> className) throws IOException, SQLException {
 
         collectDataFromApi(apiEndPoint);
