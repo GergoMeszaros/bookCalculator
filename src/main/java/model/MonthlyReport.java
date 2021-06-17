@@ -1,6 +1,5 @@
 package model;
 
-import model.MarketPlaceType;
 
 import java.time.Month;
 import java.time.format.TextStyle;
