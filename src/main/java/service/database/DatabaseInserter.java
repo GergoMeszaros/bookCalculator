@@ -8,7 +8,7 @@ import model.Marketplace;
 import java.io.IOException;
 import java.sql.*;
 
-public class DatabaseInserter {
+public class DatabaseInserter implements AutoCloseable {
 
     private final DatabaseConnector databaseConnector;
     private final DatabaseTableCreator databaseTableCreator;
@@ -75,7 +75,13 @@ public class DatabaseInserter {
         }
         preparedStatement.executeBatch();
         connection.commit();
-        connection.close();
+
+        try {
+            close();
+        } catch (Exception exception) {
+            System.out.println("Cannot close db connection");
+            exception.printStackTrace();
+        }
     }
 
     private void insertMarketPlace(Marketplace[] marketplaces) throws SQLException {
@@ -96,7 +102,13 @@ public class DatabaseInserter {
 
         preparedStatement.executeBatch();
         connection.commit();
-        connection.close();
+
+        try {
+            close();
+        } catch (Exception exception) {
+            System.out.println("Cannot close db connection");
+            exception.printStackTrace();
+        }
     }
 
     private void insertListingStatus(ListingStatus[] listing_statuses) throws SQLException {
@@ -116,7 +128,14 @@ public class DatabaseInserter {
         }
         preparedStatement.executeBatch();
         connection.commit();
-        connection.close();
+
+        try {
+            close();
+        } catch (Exception exception) {
+            System.out.println("Cannot close db connection");
+            exception.printStackTrace();
+        }
+
     }
 
     private void insertListing(Listing[] listings) throws SQLException {
@@ -149,6 +168,18 @@ public class DatabaseInserter {
         }
         preparedStatement.executeBatch();
         connection.commit();
+
+        try {
+            close();
+        } catch (Exception exception) {
+            System.out.println("Cannot close db connection");
+            exception.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void close() throws Exception {
         connection.close();
     }
 }

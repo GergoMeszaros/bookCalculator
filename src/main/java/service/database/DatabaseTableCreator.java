@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DatabaseTableCreator implements AutoCloseable{
+public class DatabaseTableCreator implements AutoCloseable {
 
     private final DatabaseConnector databaseConnector;
     private Connection connection;
@@ -15,9 +15,9 @@ public class DatabaseTableCreator implements AutoCloseable{
         createConnection();
     }
 
-    private void createConnection(){
+    private void createConnection() {
         try {
-            connection =databaseConnector.createConnection();
+            connection = databaseConnector.createConnection();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
