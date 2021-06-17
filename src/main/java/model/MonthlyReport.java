@@ -2,21 +2,50 @@ package model;
 
 import model.MarketPlaceType;
 
+import java.time.Month;
+import java.time.format.TextStyle;
+import java.util.Locale;
+
 public class MonthlyReport {
 
-    private MarketPlaceType marketPlaceType;
-    private String bestListerEmailAddress;
-    private Long totalListingPriceOfMonth;
-    private Long totalListingCountOfMonth;
+     private String month;
+     int year;
+     String marketPlaceType;
+     String bestListerEmailAddress;
+     Float totalListingPrice;
+     Long totalListingCount;
+     Float averageListingPrice;
 
 
-    public MonthlyReport(MarketPlaceType marketPlaceType, String bestListerEmailAddress, Long totalListingPriceOfMonth, Long totalListingCountOfMonth) {
-        this.marketPlaceType = marketPlaceType;
+    public MonthlyReport(int year, int month, int marketPlaceType, String bestListerEmailAddress, Float totalListingPriceOfMonth, Long totalListingCountOfMonth, Float averageListingPrice) {
+        this.year = year;
+        this.month = Month.of(month).getDisplayName(TextStyle.FULL_STANDALONE, Locale.ENGLISH);
+        this.marketPlaceType = setMarketPlaceType(marketPlaceType);
         this.bestListerEmailAddress = bestListerEmailAddress;
-        this.totalListingPriceOfMonth = totalListingPriceOfMonth;
-        this.totalListingCountOfMonth = totalListingCountOfMonth;
+        this.totalListingPrice = totalListingPriceOfMonth;
+        this.totalListingCount = totalListingCountOfMonth;
+        this.averageListingPrice = averageListingPrice;
+    }
+
+    public MonthlyReport() {
+
+    }
+
+    String setMarketPlaceType(int marketPlaceId) {
+        return MarketPlaceType.getMarketPlaceTypeNameFromId(marketPlaceId);
     }
 
 
-
+    @Override
+    public String toString() {
+        return "MonthlyReport{" +
+                "year=" + year +
+                ", month=" + month +
+                ", marketPlaceType='" + marketPlaceType + '\'' +
+                ", bestListerEmailAddress='" + bestListerEmailAddress + '\'' +
+                ", totalListingPrice=" + totalListingPrice +
+                ", totalListingCount=" + totalListingCount +
+                ", averageListingPrice=" + averageListingPrice +
+                '}';
+    }
 }
