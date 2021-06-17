@@ -46,7 +46,6 @@ public class ServiceCaller {
 
         for (Map.Entry<String, Class<?>> entry : endpoint.getEndpoints().entrySet()) {
             gsonCreator.modelListCreator(entry.getKey(), entry.getValue());
-            Thread.sleep(1000);
         }
 
         reportCreator.startReporting();
