@@ -12,7 +12,8 @@ public class ReadConfigFile {
     String dbPassword;
     String dbUrl;
     String reportFileName;
-    String csvName;
+    String reportFilePath;
+    String csvPath;
     String ftpUsername;
     String ftpPassword;
     String ftpServer;
@@ -37,8 +38,12 @@ public class ReadConfigFile {
         return reportFileName;
     }
 
-    public String getCsvName() {
-        return csvName;
+    public String getReportFilePath() {
+        return reportFilePath;
+    }
+
+    public String getCsvPath() {
+        return csvPath;
     }
 
     public String getFtpUsername() {
@@ -89,8 +94,9 @@ public class ReadConfigFile {
             dbUsername = properties.getProperty("dbUsername");
             dbPassword = properties.getProperty("dbPassword");
             dbUrl = properties.getProperty("dbUrl");
-            reportFileName = properties.getProperty("fileName");
-            csvName = properties.getProperty("csvName");
+            reportFilePath = properties.getProperty("reportFilePath");
+            reportFileName = properties.getProperty("reportFileName");
+            csvPath = properties.getProperty("csvPath");
             ftpServer = properties.getProperty("ftpServer");
             ftpUsername = properties.getProperty("ftpUsername");
             ftpPassword = properties.getProperty("ftpPassword");
