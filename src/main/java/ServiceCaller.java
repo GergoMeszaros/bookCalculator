@@ -42,7 +42,7 @@ public class ServiceCaller {
         execute(endpoint, gsonCreator, reportCreator, ftpUploader);
     }
 
-    private void execute(Endpoint endpoint, GsonCreator gsonCreator, ReportCreator reportCreator, FtpUploader ftpUploader) throws SQLException, IOException, ParseException, InterruptedException {
+    private void execute(Endpoint endpoint, GsonCreator gsonCreator, ReportCreator reportCreator, FtpUploader ftpUploader) throws SQLException, IOException {
 
         for (Map.Entry<String, Class<?>> entry : endpoint.getEndpoints().entrySet()) {
             gsonCreator.modelListCreator(entry.getKey(), entry.getValue());
