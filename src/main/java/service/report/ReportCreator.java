@@ -1,8 +1,7 @@
 package service.report;
 
-import model.AnnualReport;
 import model.MarketPlaceType;
-import model.MonthlyReport;
+import model.Report;
 import service.database.DatabaseConnector;
 
 import java.sql.*;
@@ -113,10 +112,10 @@ public class ReportCreator {
     }
 
     private void turnResultSetIntoMonthlyObjects(ResultSet resultSet) throws SQLException {
-        List<MonthlyReport> monthlyReports = new ArrayList<>();
+        List<Report> reports = new ArrayList<>();
 
         while (resultSet.next()) {
-            monthlyReports.add(new MonthlyReport(
+            reports.add(new Report(
                     resultSet.getInt("year"),
                     resultSet.getInt("month"),
                     resultSet.getInt("marketplace"),
@@ -125,14 +124,14 @@ public class ReportCreator {
                     resultSet.getLong("total_listing"),
                     resultSet.getFloat("average_listing_price")));
         }
-        reportToJsonWriter.createJsonFromArrayList(monthlyReports);
+        reportToJsonWriter.createJsonFromArrayList(reports);
     }
 
     private void turnResultSetIntoAnnualObjects(ResultSet resultSet) throws SQLException {
-        List<AnnualReport> annualReports = new ArrayList<>();
+        List<Report> annualReports = new ArrayList<>();
 
         while (resultSet.next()) {
-            annualReports.add(new AnnualReport(
+            annualReports.add(new Report(
                     resultSet.getInt("year"),
                     resultSet.getInt("marketplace"),
                     resultSet.getString("best_listers_email"),
