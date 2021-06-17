@@ -1,3 +1,5 @@
+package service.config;
+
 import model.Listing;
 import model.ListingStatus;
 import model.Location;

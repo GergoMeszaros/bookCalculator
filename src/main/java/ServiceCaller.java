@@ -1,4 +1,5 @@
 import service.GsonCreator;
+import service.config.Endpoint;
 import service.config.ReadConfigFile;
 import service.database.DatabaseConnector;
 import service.database.DatabaseInserter;
