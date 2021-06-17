@@ -1,25 +1,26 @@
 package service.database;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseTableCreator {
 
-    private final Connection connection;
-    private static DatabaseTableCreator databaseTableCreator;
+    private final DatabaseConnector databaseConnector;
+    private Connection connection;
 
-    private DatabaseTableCreator() throws IOException, SQLException {
-        DatabaseConnector databaseConnector = DatabaseConnector.getDbConnectorInstance();
-        this.connection = databaseConnector.createConnection();
+    public DatabaseTableCreator(DatabaseConnector databaseConnector) {
+
+        this.databaseConnector = databaseConnector;
+        createConnection();
     }
 
-    public static DatabaseTableCreator getInstance() throws SQLException, IOException {
-        if (databaseTableCreator == null) {
-            databaseTableCreator = new DatabaseTableCreator();
+    private void createConnection(){
+        try {
+            connection =databaseConnector.createConnection();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
-        return databaseTableCreator;
     }
 
     private void tableDropper() throws SQLException {
@@ -91,5 +92,8 @@ public class DatabaseTableCreator {
                         "       FOREIGN KEY (listing_status) REFERENCES listing_status(id))";
 
         statement.execute(createListing);
+        connection.close();
     }
+
+    //implements autoclosable
 }
