@@ -1,34 +1,29 @@
 package service.validator;
 
 import model.Listing;
-import service.CsvCreator;
 
 import java.io.FileNotFoundException;
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ApiDataValidator {
 
-    private static ApiDataValidator apiDataValidator;
-    private final CsvCreator csvCreator = new CsvCreator();
+    private final CsvCreator csvCreator;
 
-    private ApiDataValidator() {
-    }
-
-    public static ApiDataValidator getApiDataValidatorInstance() {
-        if (apiDataValidator == null) {
-            apiDataValidator = new ApiDataValidator();
-        }
-        return apiDataValidator;
+    public ApiDataValidator(CsvCreator csvCreator) {
+        this.csvCreator = csvCreator;
     }
 
     public void validateApiData(Listing[] listing) throws FileNotFoundException {
 
         List<Listing> dataToCsv = Arrays.stream(listing)
+                .filter(Listing::selfChecker)
+                .collect(Collectors.toList());
+
+        csvCreator.convertDataArrayToCsvAndOutputCreated(dataToCsv);
+
+        /*List<Listing> dataToCsv = Arrays.stream(listing)
                 .filter(element ->
                         element.getId() == null ||
                                 element.getTitle() == null ||
@@ -42,14 +37,7 @@ public class ApiDataValidator {
                                 (element.getOwnerEmailAddress() == null || !validateEmailAddress(element.getOwnerEmailAddress())))
                 .collect(Collectors.toList());
 
-        csvCreator.convertDataArrayToCsvAndOutputCreated(dataToCsv);
+        csvCreator.convertDataArrayToCsvAndOutputCreated(dataToCsv);*/
     }
-
-    private boolean validateEmailAddress(String emailAddress) {
-        Pattern pattern = Pattern.compile("^.+@.+\\..+$");
-        Matcher matcher = pattern.matcher(emailAddress);
-        return matcher.matches();
-    }
-
 
 }
