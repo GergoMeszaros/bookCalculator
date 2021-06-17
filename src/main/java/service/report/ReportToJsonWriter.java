@@ -13,7 +13,7 @@ public class ReportToJsonWriter {
 
     private final ReadConfigFile readConfigFile;
     private FileWriter fileWriter;
-    private String filename;
+    private String reportFilePath;
 
     public ReportToJsonWriter(ReadConfigFile readConfigFile) {
         this.readConfigFile = readConfigFile;
@@ -23,7 +23,7 @@ public class ReportToJsonWriter {
     public <T> void createJsonFromArrayList(List<T> report) {
 
         try {
-            fileWriter = new FileWriter(filename, true);
+            fileWriter = new FileWriter(reportFilePath, true);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -41,9 +41,9 @@ public class ReportToJsonWriter {
 
     private void removeJsonFileIfExists() {
 
-        filename = readConfigFile.getReportFileName();
+        reportFilePath = readConfigFile.getReportFilePath();
 
-        File file = new File(filename);
+        File file = new File(reportFilePath);
         if (file.delete())
             System.out.println("Deleted existing Report.json file");
     }
