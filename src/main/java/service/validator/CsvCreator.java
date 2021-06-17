@@ -30,7 +30,8 @@ public class CsvCreator {
     }
 
     private void deleteCsvIfExists() {
-        File csvToDelete = new File("/Users/gergo/codecool/advanced/bookCalculator/src/main/java/file/wrongFields.csv");
+        String csvPath = readConfigFile.getCsvPath();
+        File csvToDelete = new File(csvPath);
         if (csvToDelete.delete()) {
             System.out.println("Deleted existing InvalidFields.csv file");
         }
@@ -42,7 +43,7 @@ public class CsvCreator {
 
         System.out.println("Creating InvalidFields.csv file");
 
-        File outputCsvFile = new File(readConfigFile.getCsvName());
+        File outputCsvFile = new File(readConfigFile.getCsvPath());
         dataLines.add(new String[]{"ListingId", "MarketplaceName", "InvalidFields"});
 
         for (Listing element : dataToCsv) {
