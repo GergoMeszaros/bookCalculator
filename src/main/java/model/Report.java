@@ -5,7 +5,7 @@ import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
-public class MonthlyReport {
+public class Report {
 
      private String month;
      int year;
@@ -16,7 +16,7 @@ public class MonthlyReport {
      Float averageListingPrice;
 
 
-    public MonthlyReport(int year, int month, int marketPlaceType, String bestListerEmailAddress, Float totalListingPriceOfMonth, Long totalListingCountOfMonth, Float averageListingPrice) {
+    public Report(int year, int month, int marketPlaceType, String bestListerEmailAddress, Float totalListingPriceOfMonth, Long totalListingCountOfMonth, Float averageListingPrice) {
         this.year = year;
         this.month = Month.of(month).getDisplayName(TextStyle.FULL_STANDALONE, Locale.ENGLISH);
         this.marketPlaceType = setMarketPlaceType(marketPlaceType);
@@ -26,8 +26,17 @@ public class MonthlyReport {
         this.averageListingPrice = averageListingPrice;
     }
 
-    public MonthlyReport() {
+    public Report() {
 
+    }
+
+    public Report(int year, int marketPlaceType, String bestListerEmailAddress, Float totalListingPrice, Long totalListingCount, Float averageListingPrice ){
+        this.totalListingCount = totalListingCount;
+        this.year = year;
+        this.marketPlaceType = setMarketPlaceType(marketPlaceType);
+        this.bestListerEmailAddress = bestListerEmailAddress;
+        this.totalListingPrice = totalListingPrice;
+        this.averageListingPrice = averageListingPrice;
     }
 
     String setMarketPlaceType(int marketPlaceId) {
