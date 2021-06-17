@@ -1,7 +1,8 @@
-package service;
+package service.validator;
 
 import model.Listing;
 import model.MarketPlaceType;
+import service.config.ReadConfigFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,39 +12,44 @@ import java.util.List;
 
 public class CsvCreator {
 
+    private final ReadConfigFile readConfigFile;
+
     private List<String[]> dataLines;
 
-    public CsvCreator() {
+    public CsvCreator(ReadConfigFile readConfigFile) {
         this.dataLines = new ArrayList<>();
+        this.readConfigFile = readConfigFile;
     }
 
     private String convertToCsv(String[] data) {
         return String.join(",", data);
     }
 
-    private String turnWrongFieldsIntoString(String[] fields){
-        return String.join("-", fields);
-
+    private String turnWrongFieldsIntoString(List<String> fields) {
+        return String.join(" ", fields);
     }
 
     private void deleteCsvIfExists() {
         File csvToDelete = new File("/Users/gergo/codecool/advanced/bookCalculator/src/main/java/file/wrongFields.csv");
         if (csvToDelete.delete()) {
-            System.out.println("csv deleted!!!");
+            System.out.println("Deleted existing InvalidFields.csv file");
         }
     }
 
     public void convertDataArrayToCsvAndOutputCreated(List<Listing> dataToCsv) throws FileNotFoundException {
 
         deleteCsvIfExists();
-        File outputCsvFile = new File("/Users/gergo/codecool/advanced/bookCalculator/src/main/java/file/wrongFields.csv");
 
+        System.out.println("Creating InvalidFields.csv file");
+
+        File outputCsvFile = new File(readConfigFile.getCsvName());
         dataLines.add(new String[]{"ListingId", "MarketplaceName", "InvalidFields"});
 
         for (Listing element : dataToCsv) {
-            dataLines.add(new String[]{String.valueOf(element.getId()),
+            dataLines.add(new String[]{
+                    String.valueOf(element.getId()),
                     MarketPlaceType.getMarketPlaceTypeNameFromId(element.getMarketplace()),
-                    "----"
+                    turnWrongFieldsIntoString(element.getWrongFields())
             });
         }
 
