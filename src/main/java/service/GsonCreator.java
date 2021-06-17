@@ -10,11 +10,6 @@ import service.validator.HttpDataCollector;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class GsonCreator {
 
