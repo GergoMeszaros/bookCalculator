@@ -14,13 +14,17 @@ public class FtpUploader {
     private final String ftpAddress;
     private final String ftpUsername;
     private final String ftpPassword;
+    private final String reportFilePath;
     private final String reportFileName;
+
 
     public FtpUploader(ReadConfigFile readConfigFile) {
         ftpAddress = readConfigFile.getFtpServer();
         ftpUsername = readConfigFile.getFtpUsername();
         ftpPassword = readConfigFile.getFtpPassword();
         reportFileName = readConfigFile.getReportFileName();
+        reportFilePath = readConfigFile.getReportFilePath();
+
     }
 
     public void upload() {
@@ -34,12 +38,11 @@ public class FtpUploader {
 
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 
-            File file = new File(reportFileName);
-            String remoteFileName = "jsonreport.json";
+            File file = new File(reportFilePath);
 
             InputStream inputStream = new FileInputStream(file);
             System.out.println("Uploading file");
-            boolean done = ftpClient.storeFile(remoteFileName, inputStream);
+            boolean done = ftpClient.storeFile(reportFileName, inputStream);
             inputStream.close();
 
             if (done) {
@@ -57,8 +60,8 @@ public class FtpUploader {
                     ftpClient.logout();
                     ftpClient.disconnect();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
         }
     }
