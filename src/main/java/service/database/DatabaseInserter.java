@@ -180,5 +180,7 @@ public class DatabaseInserter implements AutoCloseable {
     @Override
     public void close() throws Exception {
         connection.close();
+
+
     }
 }
