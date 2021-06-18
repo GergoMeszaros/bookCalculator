@@ -37,7 +37,7 @@ public class CsvCreator {
         }
     }
 
-    public void convertDataArrayToCsvAndOutputCreated(List<Listing> dataToCsv) throws FileNotFoundException {
+    public void convertDataArrayToCsvAndOutputCreated(List<Listing> dataToCsv) {
 
         deleteCsvIfExists();
 
@@ -58,6 +58,10 @@ public class CsvCreator {
             dataLines.stream()
                     .map(this::convertToCsv)
                     .forEach(printWriter::println);
+
+        } catch (FileNotFoundException exception) {
+            System.out.println("Csv file not found");
+            exception.printStackTrace();
         }
     }
 }
