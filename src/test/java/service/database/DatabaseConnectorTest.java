@@ -2,10 +2,8 @@ package service.database;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import service.config.ReadConfigFile;
 
@@ -16,35 +14,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseConnectorTest {
 
-    private ReadConfigFile readConfigFile;
     private MysqlDataSource dataSource;
+    Connection connection;
 
 
     @BeforeEach
-    void setup(){
-        readConfigFile = Mockito.mock(ReadConfigFile.class);
+    void setup() {
         dataSource = Mockito.mock(MysqlDataSource.class);
     }
 
     @Test
-    void checkDatabaseConnection() throws SQLException {
+    void checkWrongDatabaseConnection() {
 
-        dataSource.setURL(readConfigFile.getDbUrl());
-        dataSource.setUser(readConfigFile.getDbUsername());
-        dataSource.setPassword(readConfigFile.getDbPassword());
+        dataSource.setURL(" ");
+        dataSource.setUser(" ");
+        dataSource.setPassword(" ");
 
-        assertTrue(dataSource.getConnection().isValid(0));
-
-    }
-
-    @Test
-    void throwExceptionIfConnectionParametersAreWrong(){
-
-        Assertions.assertThrows(SQLException.class, () ->{
-            dataSource.setURL(" ");
-            dataSource.setUser(" ");
-            dataSource.setPassword(" ");
-        });
-
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        assertNull(connection);
     }
 }
