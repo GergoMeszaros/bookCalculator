@@ -4,7 +4,6 @@ import model.Listing;
 import model.ListingStatus;
 import model.Location;
 import model.Marketplace;
-import service.config.ReadConfigFile;
 
 import java.util.Collections;
 import java.util.Map;

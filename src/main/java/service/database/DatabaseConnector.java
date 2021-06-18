@@ -3,7 +3,6 @@ package service.database;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import service.config.ReadConfigFile;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
