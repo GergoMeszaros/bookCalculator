@@ -3,7 +3,6 @@ package service.validator;
 import model.Listing;
 import model.ListingStatusType;
 
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +15,7 @@ public class ApiDataValidator {
         this.csvCreator = csvCreator;
     }
 
-    public Listing[] validateApiData(Listing[] listing) throws FileNotFoundException {
+    public Listing[] validateApiData(Listing[] listing) {
 
         List<Listing> dataToCsv = Arrays.stream(listing)
                 .filter(Listing::selfChecker)
