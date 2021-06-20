@@ -1,7 +1,7 @@
 This simple maven project follows the structure of the required document presented by World of Books.
 
 Necessary properties such as database and ftp parameters, api endpoints, filenames and extensions collected in a single config.properties file.
-These values are replaceable. The only purpose I left them filled,to show that I have a working configuration.
+These values are replaceable. The only purpose I left them filled out is to show that I have a working configuration.
 Please find the data structure of the project on the following link: https://lucid.app/documents/embeddedchart/6a95d1ab-bf74-47ba-9547-cc30442edcbd
 
 Packages and classes have separated according to their duties. 
