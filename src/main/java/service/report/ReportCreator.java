@@ -41,18 +41,19 @@ public class ReportCreator {
                                COUNT(id)               AS total_listing,
                                SUM(listing_price)      AS total_listing_price,
                                AVG(listing_price)      AS average_listing_price,
-
+                               
                                (SELECT best_lister.owner_email_address
                                 FROM (SELECT owner_email_address, count(owner_email_address) AS count
                                       FROM listing
                                       WHERE MONTH(upload_time) = month
-                                        AND YEAR(upload_time) = year
-                                        AND marketplace = ?
+                                      AND YEAR(upload_time) = year
+                                      AND marketplace = ?
                                       GROUP BY owner_email_address
                                       ORDER BY count DESC
                                       LIMIT 1
-                                     ) AS best_lister) AS best_listers_email, marketplace
-
+                                     ) AS best_lister
+                               ) AS best_listers_email, marketplace
+                               
                         FROM listing
                         WHERE year(upload_time) IS NOT NULL AND marketplace = ?
                         GROUP BY year, month, marketplace
@@ -75,17 +76,17 @@ public class ReportCreator {
                        COUNT(id)               AS total_listing,
                        SUM(listing_price)      AS total_listing_price,
                        AVG(listing_price)      AS average_listing_price,
-
+                       
                        (SELECT best_lister.owner_email_address
                         FROM (SELECT owner_email_address, count(owner_email_address) AS count
                               FROM listing
-                                WHERE YEAR(upload_time) = year
-                                AND marketplace = ?
+                              WHERE YEAR(upload_time) = year
+                              AND marketplace = ?
                               GROUP BY owner_email_address
                               ORDER BY count DESC
                               LIMIT 1
                              ) AS best_lister) AS best_listers_email, marketplace
-
+                             
                 FROM listing
                 WHERE year(upload_time) IS NOT NULL AND marketplace = ?
                 GROUP BY year, marketplace
