@@ -1,27 +1,27 @@
 package service.database;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import service.config.ReadConfigFile;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 class DatabaseConnectorTest {
 
-    private MysqlDataSource dataSource;
-    private DatabaseConnector databaseConnector;
+    MysqlDataSource dataSource;
+    DatabaseConnector databaseConnector;
     Connection connection;
-
 
     @BeforeEach
     void setup() {
+
         dataSource = Mockito.mock(MysqlDataSource.class);
         databaseConnector = Mockito.mock(DatabaseConnector.class);
     }
@@ -39,10 +39,5 @@ class DatabaseConnectorTest {
             exception.printStackTrace();
         }
         assertNull(connection);
-    }
-
-    @Test
-    void returnConnection() throws SQLException {
-        when(databaseConnector.createConnection()).thenReturn(connection);
     }
 }

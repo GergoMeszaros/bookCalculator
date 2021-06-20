@@ -7,20 +7,22 @@ import java.util.Properties;
 
 public class ReadConfigFile {
 
-    InputStream inputStream;
-    String dbUsername;
-    String dbPassword;
-    String dbUrl;
-    String reportFileName;
-    String reportFilePath;
-    String csvPath;
-    String ftpUsername;
-    String ftpPassword;
-    String ftpServer;
-    String listing;
-    String listingStatus;
-    String marketplace;
-    String location;
+    private InputStream inputStream;
+    private final Properties properties;
+
+    private String dbUsername;
+    private String dbPassword;
+    private String dbUrl;
+    private String reportFileName;
+    private String reportFilePath;
+    private String csvPath;
+    private String ftpUsername;
+    private String ftpPassword;
+    private String ftpServer;
+    private String listing;
+    private String listingStatus;
+    private String marketplace;
+    private String location;
 
     public String getDbUsername() {
         return dbUsername;
@@ -74,16 +76,15 @@ public class ReadConfigFile {
         return location;
     }
 
-    public ReadConfigFile() throws IOException {
+    public ReadConfigFile(Properties properties) throws IOException {
+        this.properties = properties;
         getPropertyValues();
     }
 
     public void getPropertyValues() throws IOException {
 
         try {
-            Properties properties = new Properties();
             String configFileName = "config.properties";
-
             inputStream = getClass().getClassLoader().getResourceAsStream(configFileName);
 
             if (inputStream != null) {
