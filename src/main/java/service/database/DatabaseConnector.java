@@ -9,14 +9,15 @@ import java.sql.SQLException;
 public class DatabaseConnector {
 
     private final ReadConfigFile readConfigFile;
+    private final MysqlDataSource dataSource;
 
-    public DatabaseConnector(ReadConfigFile readConfigFile) {
+    public DatabaseConnector(ReadConfigFile readConfigFile, MysqlDataSource dataSource) {
         this.readConfigFile = readConfigFile;
+        this.dataSource = dataSource;
     }
 
     public Connection createConnection() throws SQLException {
 
-        MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL(readConfigFile.getDbUrl());
         dataSource.setUser(readConfigFile.getDbUsername());
         dataSource.setPassword(readConfigFile.getDbPassword());
