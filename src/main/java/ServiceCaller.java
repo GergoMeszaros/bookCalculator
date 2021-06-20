@@ -1,3 +1,4 @@
+import com.mysql.cj.jdbc.MysqlDataSource;
 import service.GsonCreator;
 import service.config.Endpoint;
 import service.config.ReadConfigFile;
@@ -25,6 +26,7 @@ public class ServiceCaller {
     private void createInstances() throws IOException, SQLException, ParseException, InterruptedException {
 
         Properties properties = new Properties();
+        MysqlDataSource mysqlDataSource = new MysqlDataSource();
 
         ReadConfigFile readConfigFile = new ReadConfigFile(properties);
         HttpDataCollector httpDataCollector = new HttpDataCollector();
@@ -34,7 +36,7 @@ public class ServiceCaller {
         CsvCreator csvCreator = new CsvCreator(readConfigFile);
         ApiDataValidator apiDataValidator = new ApiDataValidator(csvCreator);
 
-        DatabaseConnector databaseConnector = new DatabaseConnector(readConfigFile);
+        DatabaseConnector databaseConnector = new DatabaseConnector(readConfigFile, mysqlDataSource);
         DatabaseTableCreator databaseTableCreator = new DatabaseTableCreator(databaseConnector);
         DatabaseInserter databaseInserter = new DatabaseInserter(databaseConnector, databaseTableCreator);
 
