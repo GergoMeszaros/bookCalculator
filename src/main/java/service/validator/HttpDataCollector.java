@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 public class HttpDataCollector {
+
+    private String result;
 
     public HttpDataCollector() {
 
@@ -35,12 +35,12 @@ public class HttpDataCollector {
             input.close();
             connection.disconnect();
 
-            return String.valueOf(content);
+            result = String.valueOf(content);
 
         } catch (IOException exception) {
             System.out.println("Error while gathering data from endpoints " + exception);
             exception.printStackTrace();
         }
-        return null;
+        return result;
     }
 }
