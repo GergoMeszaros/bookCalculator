@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Map;
+import java.util.Properties;
 
 public class ServiceCaller {
 
@@ -23,7 +24,9 @@ public class ServiceCaller {
 
     private void createInstances() throws IOException, SQLException, ParseException, InterruptedException {
 
-        ReadConfigFile readConfigFile = new ReadConfigFile();
+        Properties properties = new Properties();
+
+        ReadConfigFile readConfigFile = new ReadConfigFile(properties);
         HttpDataCollector httpDataCollector = new HttpDataCollector();
         FtpUploader ftpUploader = new FtpUploader(readConfigFile);
         Endpoint endpoint = new Endpoint(readConfigFile);
