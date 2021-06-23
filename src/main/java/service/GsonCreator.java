@@ -41,19 +41,21 @@ public class GsonCreator {
         Gson gson = gsonBuilder.create();
 
         T[] databaseModel = gson.fromJson(apiResponse, (Type) className.arrayType());
-        Listing[] listings = new Listing[0];
 
         if (databaseModel[0] instanceof Listing) {
-            listings = apiDataValidator.validateApiData((Listing[]) databaseModel);
+            callDataValidatorAndInserter((Listing[]) databaseModel, className);
         }
 
-        if (listings.length > 0) {
-            callDatabaseInserter(className, listings);
-        } else {
-            callDatabaseInserter(className, databaseModel);
-        }
-
+        callDatabaseInserter(className, databaseModel);
     }
+
+    private void callDataValidatorAndInserter(Listing[] listings, Class<?> className) throws SQLException {
+
+        Listing[] validatedListings = apiDataValidator.validateApiData(listings);
+
+        callDatabaseInserter(className, validatedListings);
+    }
+
 
     private <T> void callDatabaseInserter(Class<?> classname, T[] arrayOfModels) throws SQLException {
         databaseInserter.forwardDataToAppropriateInserter(arrayOfModels, classname);
