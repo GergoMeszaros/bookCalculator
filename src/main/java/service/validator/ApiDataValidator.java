@@ -37,7 +37,6 @@ public class ApiDataValidator {
         Listing[] result = new Listing[listingArray.size()];
         listingArray.toArray(result);
 
-
         return result;
     }
 }
