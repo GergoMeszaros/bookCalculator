@@ -44,9 +44,9 @@ public class GsonCreator {
 
         if (databaseModel[0] instanceof Listing) {
             callDataValidatorAndInserter((Listing[]) databaseModel, className);
+        } else {
+            callDatabaseInserter(className, databaseModel);
         }
-
-        callDatabaseInserter(className, databaseModel);
     }
 
     private void callDataValidatorAndInserter(Listing[] listings, Class<?> className) throws SQLException {
