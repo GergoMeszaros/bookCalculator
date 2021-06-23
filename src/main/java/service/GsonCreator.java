@@ -7,7 +7,6 @@ import service.database.DatabaseInserter;
 import service.validator.ApiDataValidator;
 import service.validator.HttpDataCollector;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.SQLException;
 
@@ -15,7 +14,6 @@ public class GsonCreator {
 
     private final ApiDataValidator apiDataValidator;
     private final HttpDataCollector dataCollector;
-    private String apiResponse;
     private final DatabaseInserter databaseInserter;
 
     public GsonCreator(ApiDataValidator apiDataValidator, HttpDataCollector dataCollector, DatabaseInserter databaseInserter) {
@@ -24,8 +22,8 @@ public class GsonCreator {
         this.databaseInserter = databaseInserter;
     }
 
-    private void collectDataFromApi(String apiEndPoint) {
-        apiResponse = dataCollector.getDataFromApiEndPoint(apiEndPoint);
+    private String collectDataFromApi(String apiEndPoint) {
+        return dataCollector.getDataFromApiEndPoint(apiEndPoint);
     }
 
 
@@ -37,7 +35,7 @@ public class GsonCreator {
      */
     public <T> void modelListCreator(String apiEndPoint, Class<?> className) throws SQLException {
 
-        collectDataFromApi(apiEndPoint);
+        String apiResponse = collectDataFromApi(apiEndPoint);
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
