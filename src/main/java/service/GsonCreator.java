@@ -56,7 +56,6 @@ public class GsonCreator {
         callDatabaseInserter(className, validatedListings);
     }
 
-
     private <T> void callDatabaseInserter(Class<?> classname, T[] arrayOfModels) throws SQLException {
         databaseInserter.forwardDataToAppropriateInserter(arrayOfModels, classname);
     }
