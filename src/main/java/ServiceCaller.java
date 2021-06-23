@@ -26,13 +26,13 @@ public class ServiceCaller {
 
     public void startApplication() {
         try {
-            createInstances();
+            createAndInjectDependencies();
         } catch (IOException | SQLException | ParseException | InterruptedException exception) {
             exception.printStackTrace();
             System.out.println("Error while starting application " + exception);
         }
     }
-    private void createInstances() throws IOException, SQLException, ParseException, InterruptedException {
+    private void createAndInjectDependencies() throws IOException, SQLException, ParseException, InterruptedException {
         Properties properties = new Properties();
         MysqlDataSource mysqlDataSource = new MysqlDataSource();
 
