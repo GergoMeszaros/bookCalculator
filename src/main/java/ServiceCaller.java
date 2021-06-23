@@ -23,8 +23,16 @@ public class ServiceCaller {
     public ServiceCaller() {
     }
 
-    private void createInstances() throws IOException, SQLException, ParseException, InterruptedException {
 
+    public void startApplication() {
+        try {
+            createInstances();
+        } catch (IOException | SQLException | ParseException | InterruptedException exception) {
+            exception.printStackTrace();
+            System.out.println("Error while starting application " + exception);
+        }
+    }
+    private void createInstances() throws IOException, SQLException, ParseException, InterruptedException {
         Properties properties = new Properties();
         MysqlDataSource mysqlDataSource = new MysqlDataSource();
 
@@ -59,12 +67,4 @@ public class ServiceCaller {
 
     }
 
-    public void startApplication() {
-        try {
-            createInstances();
-        } catch (IOException | SQLException | ParseException | InterruptedException exception) {
-            exception.printStackTrace();
-            System.out.println("Error while starting application " + exception);
-        }
-    }
 }
