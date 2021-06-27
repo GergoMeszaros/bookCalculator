@@ -25,6 +25,8 @@ public class CsvCreator {
         return String.join(",", data);
     }
 
+
+    /** This method creates a stringBuilder and escapes the comma if we want to write multiple values into a single field*/
     private String turnWrongFieldsIntoString(List<String> fields) {
 
         if (fields.size() > 1) {
