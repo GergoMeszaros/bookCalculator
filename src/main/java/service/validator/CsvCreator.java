@@ -26,7 +26,20 @@ public class CsvCreator {
     }
 
     private String turnWrongFieldsIntoString(List<String> fields) {
-        return String.join(" ", fields);
+
+        if (fields.size() > 1) {
+            StringBuilder result = new StringBuilder();
+            result.append('"');
+            for (String field : fields) {
+                result.append(field);
+                if (!field.equals(fields.get(fields.size() - 1)))
+                    result.append(",");
+            }
+            result.append('"');
+            return result.toString();
+        }
+
+        return fields.get(0);
     }
 
     private void deleteCsvIfExists() {
