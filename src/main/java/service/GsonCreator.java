@@ -22,10 +22,6 @@ public class GsonCreator {
         this.databaseInserter = databaseInserter;
     }
 
-    private String collectDataFromApi(String apiEndPoint) {
-        return dataCollector.getDataFromApiEndPoint(apiEndPoint);
-    }
-
 
     /**
      * This method checks if the input class type is instance of Listing, if so the method passing the list
@@ -33,12 +29,10 @@ public class GsonCreator {
      * different kind of ListingStatus from the database. Supposed that the further calculations might be wrong if
      * they included the inappropriate data
      */
-    public <T> void modelListCreator(String apiEndPoint, Class<?> className) throws SQLException {
+    public <T> void getApiDataAndTurnThemIntoObjects(String apiEndPoint, Class<?> className) throws SQLException {
 
-        String apiResponse = collectDataFromApi(apiEndPoint);
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
+        String apiResponse = collectDataFromApiEndpoint(apiEndPoint);
+        Gson gson = createGsonInstance();
 
         T[] databaseModel = gson.fromJson(apiResponse, (Type) className.arrayType());
 
@@ -47,6 +41,15 @@ public class GsonCreator {
         } else {
             callDatabaseInserter(className, databaseModel);
         }
+    }
+
+    private String collectDataFromApiEndpoint(String apiEndPoint) {
+        return dataCollector.getDataFromApiEndPoint(apiEndPoint);
+    }
+
+    private Gson createGsonInstance() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        return gsonBuilder.create();
     }
 
     private void callDataValidatorAndInserter(Listing[] listings, Class<?> className) throws SQLException {
