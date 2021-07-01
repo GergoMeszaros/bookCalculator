@@ -14,10 +14,7 @@ public class CsvCreator {
 
     private final ReadConfigFile readConfigFile;
 
-    private List<String[]> dataLines;
-
     public CsvCreator(ReadConfigFile readConfigFile) {
-        this.dataLines = new ArrayList<>();
         this.readConfigFile = readConfigFile;
     }
 
@@ -26,21 +23,26 @@ public class CsvCreator {
     }
 
 
-    /** This method creates a stringBuilder and escapes the comma if we want to write multiple values into a single field*/
-    private String turnWrongFieldsIntoString(List<String> fields) {
+    /**
+     * This method creates a stringBuilder and escapes the comma if we want to write multiple values into a single field
+     */
+    private String turnInvalidFieldNamesIntoString(List<String> fields) {
 
-        if (fields.size() > 1) {
-            StringBuilder result = new StringBuilder();
-            result.append('"');
-            for (String field : fields) {
-                result.append(field);
-                if (!field.equals(fields.get(fields.size() - 1)))
-                    result.append(",");
+        int fieldsLength = fields.size();
+
+        if (fieldsLength > 1) {
+            StringBuilder fieldNamesToCommaSeparatedString = new StringBuilder();
+            fieldNamesToCommaSeparatedString.append('"');
+
+            for (String fieldName : fields) {
+                fieldNamesToCommaSeparatedString.append(fieldName);
+                if (!fieldName.equals(fields.get(fieldsLength - 1)))
+                    fieldNamesToCommaSeparatedString.append(",");
             }
-            result.append('"');
-            return result.toString();
-        }
+            fieldNamesToCommaSeparatedString.append('"');
 
+            return fieldNamesToCommaSeparatedString.toString();
+        }
         return fields.get(0);
     }
 
@@ -58,14 +60,16 @@ public class CsvCreator {
 
         System.out.println("Creating InvalidFields.csv file");
 
+        List<String[]> dataLines = new ArrayList<>();
+
         File outputCsvFile = new File(readConfigFile.getCsvPath());
-        dataLines.add(new String[]{"ListingId", "MarketplaceName", "InvalidFields"});
+        dataLines.add(readConfigFile.getCsvHeader());
 
         for (Listing element : dataToCsv) {
             dataLines.add(new String[]{
                     String.valueOf(element.getId()),
                     MarketPlaceType.getMarketPlaceTypeNameFromId(element.getMarketplace()),
-                    turnWrongFieldsIntoString(element.getWrongFields())
+                    turnInvalidFieldNamesIntoString(element.getWrongFields())
             });
         }
 
