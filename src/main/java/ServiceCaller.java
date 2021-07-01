@@ -59,12 +59,11 @@ public class ServiceCaller {
     private void execute(Endpoint endpoint, GsonCreator gsonCreator, ReportCreator reportCreator, FtpUploader ftpUploader) throws SQLException {
 
         for (Map.Entry<String, Class<?>> entry : endpoint.getEndpoints().entrySet()) {
-            gsonCreator.modelListCreator(entry.getKey(), entry.getValue());
+            gsonCreator.getApiDataAndTurnThemIntoObjects(entry.getKey(), entry.getValue());
         }
 
         reportCreator.startReporting();
-        ftpUploader.upload();
+        ftpUploader.tryToUploadJsonFile(1,3);
 
     }
-
 }
