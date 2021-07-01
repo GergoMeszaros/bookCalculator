@@ -31,7 +31,7 @@ public class ApiDataValidator {
         List<Integer> validListingStatusIds = ListingStatusType.getIdList();
 
         List<Listing> listingArray = Arrays.stream(listings)
-                .filter(element -> validListingStatusIds.contains(element.getListingStatus()))
+                .filter(listing -> validListingStatusIds.contains(listing.getListingStatus()))
                 .collect(Collectors.toList());
 
         Listing[] result = new Listing[listingArray.size()];
