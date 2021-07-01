@@ -23,6 +23,7 @@ public class ReadConfigFile {
     private String listingStatus;
     private String marketplace;
     private String location;
+    private String [] csvHeader;
 
     public String getDbUsername() {
         return dbUsername;
@@ -76,6 +77,10 @@ public class ReadConfigFile {
         return location;
     }
 
+    public String[] getCsvHeader() {
+        return csvHeader;
+    }
+
     public ReadConfigFile(Properties properties) throws IOException {
         this.properties = properties;
         getPropertyValues();
@@ -105,6 +110,7 @@ public class ReadConfigFile {
             listingStatus = properties.getProperty("listingStatus");
             marketplace = properties.getProperty("marketplace");
             location = properties.getProperty("location");
+            csvHeader = new String[]{properties.getProperty("csvHeader")};
 
         } catch (IOException exception) {
             exception.printStackTrace();
