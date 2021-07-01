@@ -57,7 +57,8 @@ public class ReportCreator {
                         FROM listing
                         WHERE year(upload_time) IS NOT NULL AND marketplace = ?
                         GROUP BY year, month, marketplace
-                        ORDER BY year""";
+                        ORDER BY year
+                """;
 
         PreparedStatement monthlyPreparedStatement = connection.prepareStatement(monthlyQuery);
         monthlyPreparedStatement.setInt(1, marketplace);
@@ -90,7 +91,8 @@ public class ReportCreator {
                 FROM listing
                 WHERE year(upload_time) IS NOT NULL AND marketplace = ?
                 GROUP BY year, marketplace
-                ORDER BY year""";
+                ORDER BY year
+                             """;
 
         PreparedStatement annualPreparedStatement = connection.prepareStatement(annualQuery);
 
