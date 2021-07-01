@@ -27,7 +27,23 @@ public class FtpUploader {
 
     }
 
-    public void upload() {
+
+    public void tryToUploadJsonFile(int attempt, int maxAttempts) {
+
+        try {
+            upload();
+        } catch (Exception exception) {
+            System.out.println("Retrying to upload file to FTP, attempt: " + attempt);
+            exception.printStackTrace();
+            if (attempt > maxAttempts) {
+                throw exception;
+            }
+            tryToUploadJsonFile(attempt++, maxAttempts);
+        }
+    }
+
+
+    private void upload() {
 
         FTPClient ftpClient = new FTPClient();
 
@@ -45,14 +61,11 @@ public class FtpUploader {
             boolean done = ftpClient.storeFile(reportFileName, inputStream);
             inputStream.close();
 
-            if (done) {
-                System.out.println("File successfully uploaded");
-            } else {
+            if (!done) {
                 System.out.println("Failed to upload file");
             }
-
         } catch (IOException exception) {
-            System.out.println("Failed to connect ftp " + exception.getMessage());
+            System.out.println("Failed to connect ftp server" + exception.getMessage());
             exception.printStackTrace();
         } finally {
             try {
@@ -61,6 +74,7 @@ public class FtpUploader {
                     ftpClient.disconnect();
                 }
             } catch (IOException exception) {
+                System.out.println("Cannot close FTP connection");
                 exception.printStackTrace();
             }
         }
