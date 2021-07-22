@@ -63,6 +63,8 @@ public class FtpUploader {
 
             if (!done) {
                 System.out.println("Failed to upload file");
+            }else{
+                System.out.println("'report.json' file successfully uploaded");
             }
         } catch (IOException exception) {
             System.out.println("Failed to connect ftp server" + exception.getMessage());

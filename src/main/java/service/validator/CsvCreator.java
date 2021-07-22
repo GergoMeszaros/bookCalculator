@@ -31,19 +31,24 @@ public class CsvCreator {
         int fieldsLength = fields.size();
 
         if (fieldsLength > 1) {
-            StringBuilder fieldNamesToCommaSeparatedString = new StringBuilder();
-            fieldNamesToCommaSeparatedString.append('"');
-
-            for (String fieldName : fields) {
-                fieldNamesToCommaSeparatedString.append(fieldName);
-                if (!fieldName.equals(fields.get(fieldsLength - 1)))
-                    fieldNamesToCommaSeparatedString.append(",");
-            }
-            fieldNamesToCommaSeparatedString.append('"');
-
-            return fieldNamesToCommaSeparatedString.toString();
+            return escapeCommasBetweenStringsInCsv(fields, fieldsLength);
         }
         return fields.get(0);
+    }
+
+    private String escapeCommasBetweenStringsInCsv(List<String> fieldsToSeparate, int fieldsLength) {
+
+        StringBuilder fieldNamesToCommaSeparatedString = new StringBuilder();
+        fieldNamesToCommaSeparatedString.append('"');
+
+        for (String fieldName : fieldsToSeparate) {
+            fieldNamesToCommaSeparatedString.append(fieldName);
+            if (!fieldName.equals(fieldsToSeparate.get(fieldsLength - 1)))
+                fieldNamesToCommaSeparatedString.append(",");
+        }
+        fieldNamesToCommaSeparatedString.append('"');
+
+        return fieldNamesToCommaSeparatedString.toString();
     }
 
     private void deleteCsvIfExists() {
